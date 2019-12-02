@@ -8,7 +8,9 @@
 
 
 1. In root of project, run `bundle init`
-1. Add gems: bundle add `activerecord` `pry` `sinatra`, `sinatra-activerecord` `rake` `sqlite3` `require_all` run bundle install
+1. Add gems: 
+  `bundle add activerecord pry sinatra, sinatra-activerecord rake sqlite3 require_all`
+  run `bundle install`
 1. mkdir config and lib 
 1. mkdir lib/models
 1. touch config/environment.rb config/database.yml
