@@ -1,0 +1,52 @@
+## Steps to setup Ruby app with activerecord
+(New for ActiveRecord 6.0)
+
+#### What's an ORM?
+
+
+
+
+
+1. In root of project, run `bundle init`
+1. Add gems: bundle add `activerecord` `pry` `sinatra`, `sinatra-activerecord` `rake` `sqlite3` `require_all` run bundle install
+1. mkdir config and lib 
+1. mkdir lib/models
+1. touch config/environment.rb config/database.yml
+1. Create your model files and models (make sure to have your models inherit from ActiveRecord::Base)
+1. In config/environment.rb:
+```
+  require 'bundler/setup'
+  Bundler.require
+  <!-- require 'active_record'
+  require 'sinatra/activerecord'
+  require 'sqlite3'
+  require 'pry'
+  require 'require_all' -->
+
+  require_all 'lib'
+```
+1. In config/database.yml:
+  ```
+  development:
+    adapter: sqlite3
+    database: db/cats.sqlite3
+  ```
+1. Touch Rakefile - require ‘config/environment.rb’ and require_relative ‘sinatra/activerecord/rake’ 
+1. Run rake -T to make sure we have access to raketasks
+1. Run `rake db:create_migration NAME=create_cats_table` (will create the db folder if it doesn’t already exist) and will add the migration file to db/migration
+1. Write migration file, then run `rake db:migrate`
+1. Then can see schema in file structure, can also drop into sqlite3 cats.db to see the tables and schema, but don’t really need to do that anymore. *Review rollback here*
+1. Create seeds in db/seeds.rb and run `rake db:seed`
+1. Now can put a pry in environment.rb to run <ModelName>.all and see your seeds.
+
+Make sure your models inherit from `ActiveRecord::Base`
+
+#### Notes
+- To view database, can run `sqlite3 db/cats.db`, then can run `.schema` or `.tables` and can run any SQL commands. (Don't need to do this anymore though! ActiveRecord gives us a schema file!)
+
+.create (.new, .save)
+.all
+.count
+.find
+.find_by
+.where
