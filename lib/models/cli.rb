@@ -2,6 +2,8 @@ class Cli
     attr_reader :user
     
     def start_game
+        binding.pry
+
         puts "Welcome to my game! What's your name?"
         user_input = gets.chomp
         @user = User.create(name: user_input)
@@ -23,6 +25,8 @@ class Cli
             @user.change_name
         else
             "not a valid option"
+            exit
+            system("clear")
         end
     end
 
