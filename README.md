@@ -1,10 +1,41 @@
-## Steps to setup Ruby app with activerecord
+# Mod 1 ActiveRecord Starter Repo
+
+
+
+
+## ActiveRecord Methods
+These common ActiveRecord methods will help you interact with your database. Please refer to the ActiveRecord
+docs for what they do and how to use them. (If the docs talk about Rails, that is ok! ActiveRecord works very
+ similar with or without Rails.)
+```
+  .create (.new, .save)
+  .all
+  .count
+  .find
+  .find_by
+  .where
+```
+
+#### Notes
+
+*Remember*, any model that will have a corresponding table in the database needs to inherit from `ActiveRecord::Base`
+ex:
+```
+class Cat < ActiveRecord::Base
+  # customer methods defined here
+end
+```
+
+- To view database, you can run `sqlite3 db/cats.db`, then can run `.schema` or `.tables` and can run any SQL commands. (Don't need to do this anymore though! ActiveRecord gives us a schema file!)
+
+
+### Steps to setup Ruby app with activerecord
 (New for ActiveRecord 6.0)
 
-#### What's an ORM?
 
-
-
+## The following steps are already done for you in this boiler plate repo. 
+## The steps below are provided to you as a reference only. 
+## You're not expected to memorize this (please don't).
 
 
 1. In root of project, run `bundle init`
@@ -19,11 +50,6 @@
 ```
   require 'bundler/setup'
   Bundler.require
-  <!-- require 'active_record'
-  require 'sinatra/activerecord'
-  require 'sqlite3'
-  require 'pry'
-  require 'require_all' -->
 
   require_all 'lib'
 ```
@@ -42,13 +68,3 @@
 1. Now can put a pry in environment.rb to run <ModelName>.all and see your seeds.
 
 Make sure your models inherit from `ActiveRecord::Base`
-
-#### Notes
-- To view database, can run `sqlite3 db/cats.db`, then can run `.schema` or `.tables` and can run any SQL commands. (Don't need to do this anymore though! ActiveRecord gives us a schema file!)
-
-.create (.new, .save)
-.all
-.count
-.find
-.find_by
-.where
