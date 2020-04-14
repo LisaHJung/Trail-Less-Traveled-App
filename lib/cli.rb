@@ -17,38 +17,55 @@ class Cli
 
     def set_hiker(hiker_name)
         @hiker = Hiker.create(name: hiker_name)
-        main_menu
+        collect_hiker_choices
     end 
 
-    def main_menu
-       puts "Choose current traffic level of a hiking trail you want to get your hike on from the following:"
-       puts "High"  #"Wash park on a sunny Saturday."
-       puts "Medium" #"I don't mind seeing some friendly faces on the trail."
-       puts "Desolate"  # "Qurantine is a style of my life. I don't want to see anyone on the trail."
-       
-       hiker_choice = gets.chomp.downcase
-       traffic_choices(hiker_choice)
+    def collect_hiker_choices
+        traffic_input = traffic_choices
+        location_input = location_choices
+        HikingTrail.trails_by_user_choice(traffic_input, location_input)
+        binding.pry
+    end   
 
+    def traffic_choices
+       puts "Choose your preferred level of traffic of a hiking trail from the following:"
+       puts "High (ex. Wash park on a sunny Saturday)"
+       puts "Medium (ex. I don't mind seeing some friendly faces on the trail.)"
+       puts "Desolate (ex. I want to avoid human contact as much as possible.)"
+       gets.chomp.downcase 
     end
 
-    def traffic_choices(hiker_choice)
-       if hiker_choice == "High" 
-        puts "Choose from following city you want to go hike in:"
+    def location_choices
+        puts "Choose city of your preference from the following:"
         puts "Boulder"
         puts "Denver"
         puts "Golden"
-       
-       elsif hiker_choice == "Medium"
-        puts "Choose from following city you want to go hike in:"
-        puts "Boulder"
-        puts "Denver"
-        puts "Golden"
-
-       else
-        puts "Choose from following city you want to go hike in:"
-        puts "Boulder"
-        puts "Denver"
-        puts "Golden"
+        gets.chomp.downcase
     end 
-end 
+
+    def length_choices(hiker_choice)
+       puts "Choose trail length of your preference from the following(in miles):"
+       puts "0-3"
+       puts "3-5"
+       puts "5+"
+       gets.chomp.downcase
+    end 
+
+    def difficulty_choices(hiker_choice)
+        puts "Choose elevation of your preference from the following(in feet)"
+        puts "7000-8000"
+        puts "8000-10,000"
+        puts "10,000+"
+        gets.chomp.downcase
+    end 
+
+    def rating_choices(hiker_choice)
+        puts "Choose rating of your preference from the following (1-5 star rating, 1-don't recommend 5-highly recommend):"
+        puts 1
+        puts 2
+        puts 3
+        puts 4
+        puts 5
+        gets.chomp.downcase
+    end 
 end 
