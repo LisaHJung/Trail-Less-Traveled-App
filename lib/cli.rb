@@ -16,7 +16,7 @@ class Cli
     end
 
     def set_hiker(hiker_name)
-        @hiker = Hiker.new(hiker_name)
+        @hiker = Hiker.create(name: hiker_name)
         main_menu
     end 
 
