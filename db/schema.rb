@@ -10,9 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-
-ActiveRecord::Schema.define(version: 2020_04_13_225232) do
-
+ActiveRecord::Schema.define(version: 2020_04_13_225229) do
 
   create_table "hikers", force: :cascade do |t|
     t.string "name"
@@ -36,7 +34,6 @@ ActiveRecord::Schema.define(version: 2020_04_13_225232) do
     t.integer "hiking_trail_id"
     t.integer "rating"
     t.string "user_comment"
-
     t.index ["hiker_id"], name: "index_reviews_on_hiker_id"
     t.index ["hiking_trail_id"], name: "index_reviews_on_hiking_trail_id"
   end

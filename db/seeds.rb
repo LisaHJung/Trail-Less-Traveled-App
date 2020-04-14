@@ -31,27 +31,27 @@ hik4 = Hiker.create(
 
 trail1 = HikingTrail.create(
     name: "7 falls",
-    location: "The Broadmoor 1 Lake Avenue Colorado Springs",
+    location: "boulder",
     difficulty_level: "easy",
     distance: 7,
-    traffic: "hard", 
+    traffic: "high", 
     elevation: 6,
     rout_type: "steps"
 )
 
 trail2 = HikingTrail.create(
     name: "Evans",
-    location: "Mount Evans Colorado",
+    location: "denver",
     difficulty_level: "easy",
     distance: 14,
-    traffic: "hard", 
+    traffic: "high", 
     elevation: 14.5,
     rout_type: "road"
 )
 
-rev1 = Review.create(hiker: hik1, hiking_trail: trail1, rating: 10, user_comments: "Very beautiful!")
-rev2 = Review.create(hiker: hik2, hiking_trail: trail2, rating: 9, user_comments: "Very easy!")
-rev3 = Review.create(hiker: hik3, hiking_trail: trail2, rating: 5, user_comments: "Too much people")
-rev4 = Review.create(hiker: hik2, hiking_trail: trail1, rating: 10, user_comments: "The restaurant inside is amazing!")
+rev1 = Review.create(hiker: hik1, hiking_trail: trail1, rating: 10, user_comment: "Very beautiful!")
+rev2 = Review.create(hiker: hik2, hiking_trail: trail2, rating: 9, user_comment: "Very easy!")
+rev3 = Review.create(hiker: hik3, hiking_trail: trail2, rating: 5, user_comment: "Too much people")
+rev4 = Review.create(hiker: hik2, hiking_trail: trail1, rating: 10, user_comment: "The restaurant inside is amazing!")
 
 binding.pry
