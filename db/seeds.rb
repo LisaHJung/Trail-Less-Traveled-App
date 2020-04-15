@@ -33,9 +33,9 @@ trail1 = HikingTrail.create(
     name: "7 falls",
     location: "boulder",
     difficulty_level: "easy",
-    distance: 7,
-    traffic: "high", 
-    elevation: 6,
+    distance: 3,
+    traffic: "medium", 
+    elevation: 8500,
     rout_type: "steps"
 )
 
@@ -45,7 +45,16 @@ trail2 = HikingTrail.create(
     difficulty_level: "easy",
     distance: 14,
     traffic: "high", 
-    elevation: 14.5,
+    elevation: 14500,
+    rout_type: "road"
+)
+trail3 = HikingTrail.create(
+    name: "Devil's head",
+    location: "colden",
+    difficulty_level: "easy",
+    distance: 8,
+    traffic: "desolate", 
+    elevation: 8000,
     rout_type: "road"
 )
 

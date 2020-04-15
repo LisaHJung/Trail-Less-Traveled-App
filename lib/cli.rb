@@ -23,8 +23,11 @@ class Cli
     def collect_hiker_choices
         traffic_input = traffic_choices
         location_input = location_choices
-        x = HikingTrail.trails_by_user_choice(traffic_input, location_input)
-        binding.pry
+        length_input = length_choices
+        difficulty_input = difficulty_choices
+        #elevation_input = elevation_choices
+        x = HikingTrail.trails_by_user_choice(traffic_input, location_input, length_input, difficulty_input)
+        #binding.pry
     end
 
     def traffic_choices
@@ -44,47 +47,43 @@ class Cli
         puts "Golden"
        
         gets.chomp.downcase
-        #length_choices(hiker_choice)
+      
     end 
 
-    def length_choices(hiker_choice)
+    def length_choices
         puts "Choose trail length of your preference from the following (in miles):"
-        puts "0-3"
-        puts "3-5"
-        puts "5+"
+        puts 0..3 
+        puts 3..5
+        puts 5..100
 
         gets.chomp.downcase
-        #difficulty_choices(hiker_choice)
     end
 
-    def difficulty_choices(hiker_choice)
-        if hiker_choice == "0-3"
-            puts "Choose elevation of your preferense from following (in feet):"
-            puts "7000-8000"
-            puts "8000-10000"
-            puts "10000+"
-        elsif hiker_choice == "3-5"
-            puts "Choose elevation of your preferense from following (in feet):"
-            puts "7000-8000"
-            puts "8000-10000"
-            puts "10000+"
-        else hiker_choice == "5+"
-            puts "Choose elevation of your preferense from following (in feet):"
-            puts "7000-8000"
-            puts "8000-10000"
-            puts "10000+"
-        end
-        hiker_choice = gets.chomp.downcase
-        rating_choices(hiker_choice)
+    def difficulty_choices
+        puts "Choose trail difficulty of your preference from the following:"
+        puts "Easy"
+        puts "Medium"
+        puts "Difficult"
+
+        gets.chomp.downcase
     end
 
-    def rating_choices(hiker_choice)
-        puts "Choise ratind of your preference from the following (1-5 star rating):"
-        puts 1
-        puts 2
-        puts 3
-        puts 4
-        puts 5
-    end
+    # def elevation_choices
+    #     puts "Choose elevation of your preferense from following (in feet):"
+    #     puts "7000-8000"
+    #     puts "8000-10000"
+    #     puts "10000+"
+    
+    #     gets.chomp.downcase
+    # end
+
+    # def rating_choices
+    #     puts "Choise ratind of your preference from the following (1-5 star rating):"
+    #     puts 1
+    #     puts 2
+    #     puts 3
+    #     puts 4
+    #     puts 5
+    # end
 
 end 
