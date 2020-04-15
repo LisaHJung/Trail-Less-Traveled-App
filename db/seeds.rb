@@ -40,11 +40,20 @@ trail1 = HikingTrail.create(
 
     trail2 = HikingTrail.create(
     name: "Evans",
-    location: "Mount Evans Colorado",
+    location: "denver",
     difficulty_level: "easy",
     distance: 14,
-    traffic: "hard", 
-    elevation: 14.5,
+    traffic: "high", 
+    elevation: 14500,
+    rout_type: "road"
+)
+trail3 = HikingTrail.create(
+    name: "Devil's head",
+    location: "colden",
+    difficulty_level: "easy",
+    distance: 8,
+    traffic: "desolate", 
+    elevation: 8000,
     rout_type: "road"
 )
 
@@ -52,4 +61,5 @@ rev1 = Review.create(hiker: hik1, hiking_trail: trail1, rating: 10, user_comment
 rev2 = Review.create(hiker: hik2, hiking_trail: trail2, rating: 9, user_comment: "Very easy!")
 rev3 = Review.create(hiker: hik3, hiking_trail: trail2, rating: 5, user_comment: "Too much people")
 rev4 = Review.create(hiker: hik2, hiking_trail: trail1, rating: 10, user_comment: "The restaurant inside is amazing!")
+
 
