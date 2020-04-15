@@ -20,6 +20,17 @@ class Cli
         collect_hiker_choices
     end 
 
+ 
+   # def user_path
+        #puts "What do you want to do? Choose one option from the following:"
+       # puts "I want to find a hiking trail."
+        #puts "I want to leave a review for a trail"
+        #user_path_input= gets.chomp.downcase
+
+        #if 
+        #end 
+        
+
     def collect_hiker_choices
         traffic_input = traffic_choices
         location_input = location_choices

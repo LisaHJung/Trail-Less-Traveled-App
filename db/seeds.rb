@@ -37,9 +37,8 @@ trail1 = HikingTrail.create(
     traffic: "high", 
     elevation: 7500,
     rout_type: "steps"
-)
 
-trail2 = HikingTrail.create(
+    trail2 = HikingTrail.create(
     name: "Evans",
     location: "Mount Evans Colorado",
     difficulty_level: "easy",
