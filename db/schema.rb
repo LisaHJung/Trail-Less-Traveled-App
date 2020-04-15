@@ -33,7 +33,11 @@ ActiveRecord::Schema.define(version: 2020_04_13_225229) do
     t.integer "hiker_id"
     t.integer "hiking_trail_id"
     t.integer "rating"
+<<<<<<< HEAD
+    t.string "user_comment"
+=======
     t.string "user_comments"
+>>>>>>> 33e1e8cb60d0a94d490e12680949468bcf8ffc43
     t.index ["hiker_id"], name: "index_reviews_on_hiker_id"
     t.index ["hiking_trail_id"], name: "index_reviews_on_hiking_trail_id"
   end
