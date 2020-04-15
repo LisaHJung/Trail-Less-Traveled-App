@@ -33,9 +33,9 @@ trail1 = HikingTrail.create(
     name: "7 falls",
     location: "boulder",
     difficulty_level: "easy",
-    distance: 7,
-    traffic: "desolate", 
-    elevation: 6,
+    distance: 5,
+    traffic: "high", 
+    elevation: 7500,
     rout_type: "steps"
 )
 
