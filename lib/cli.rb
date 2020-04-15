@@ -16,7 +16,7 @@ class Cli
     end
 
     def set_hiker(hiker_name)
-        @hiker = Hiker.create(name: hiker_name)
+        @hiker = Hiker.create(name: hiker_name, member_since: 04/15/2020, followers: 0, stats: nil)
         collect_hiker_choices
     end 
 
@@ -66,6 +66,7 @@ class Cli
         puts "Difficult"
 
         gets.chomp.downcase
+        #view_all_reviews(hiker_name)
     end
 
     # def elevation_choices
@@ -84,6 +85,11 @@ class Cli
     #     puts 3
     #     puts 4
     #     puts 5
+    # end
+
+    # def view_all_reviews(hiker_name)
+    #     puts "There is all yours reviews:"
+    #     Hiker.reviews_by_hiker
     # end
 
 end 

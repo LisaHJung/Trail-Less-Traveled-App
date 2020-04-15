@@ -28,7 +28,6 @@ hik4 = Hiker.create(
 )
 
 
-
 trail1 = HikingTrail.create(
     name: "7 falls",
     location: "boulder",
