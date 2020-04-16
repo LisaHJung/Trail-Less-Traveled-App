@@ -7,9 +7,9 @@ class Cli
         puts "Welcome to Trail Less Traveled."
         puts "During this crazy pandemic, us avid hikers and outdoor enthusiasts could find ourselves going stir crazy."
         puts "In times, where everyone and their mothers are heading to the outdoors to escape cabin fever, what is a hiker to do to find some peace and quiet on the trail?"
-        puts "Trail Less Traveled app has got you covered. Use this app to find the least busy trail based on your preference of location, trail difficulty, trail length, and reviews."
+        puts "Trail Less Traveled app helps you find the least busy trail based on your preference of location, trail difficulty, trail length, and reviews."
         puts "Keep calm and hike on while practicing safe social distancing."
-        puts "What is your name?"
+        puts "What is your full name?"
         
         hiker_name = gets.chomp
         set_hiker(hiker_name)
@@ -26,6 +26,7 @@ class Cli
         puts "2 (I want to leave a review for a trail)"
         puts "3 (I want to see all of my reviews)"
         puts "4 (I want to see all the trails I have reviewed)"
+        puts "5 (I want to exit this app)"
         user_path_input= gets.chomp.downcase
 
         if user_path_input == "1"
@@ -35,31 +36,41 @@ class Cli
             collect_hiker_inputs_review
         
         elsif user_path_input == '3'
-           
-            hiker.reviews_by_hiker.map do |review|
-                puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
-            end
-            puts "1 (I want to edit my previous review(s))"
-            puts "2 (I want to delete my previous review(s))"
-            user_path_input_3 = gets.chomp.downcase
-                if user_path_input_3 == "1"
-                    puts "please enter the trail name of the review you want to edit"
-                     trail_name_to_edit = gets.chomp   
+            see_all_reviews
+            collect_hiker_inputs_update_review
+            # hiker.reviews_by_hiker.map do |review|
+            #    puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
+            # end
+            # puts "1 (I want to edit my previous review(s))"
+            # puts "2 (I want to delete my previous review(s))"
+            # user_path_input_3 = gets.chomp.downcase
+            #    if user_path_input_3 == "1"
+            #         puts "please enter the trail name of the review you want to edit"
+            #          trail_name_to_edit = gets.chomp   
+            #         puts "Please enter the rating you wish to give for the updated review"
+            #          rating_to_edit = gets.chomp
+            #         puts "Please enter the comment you wish to update"
+            #          comment_to_edit = gets.chomp
+            #             hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
+            #         puts "Thank you! Your review is now live for our users to see"
              
-                elsif  user_path_input_3 == "2"
-                    puts "please enter the trail name of the review you want to delete"
-                    trail_name_to_delete = gets.chomp
-                        hiker.delete_review_by_trail_name(trail_name_to_delete)
-                        binding.pry
-                end 
-
+            #     elsif  user_path_input_3 == "2"
+            #         puts "please enter the trail name of the review you want to delete"
+            #         trail_name_to_delete = gets.chomp
+            #             hiker.delete_review_by_trail_name(trail_name_to_delete)
+            #     end 
+   
+              
         elsif user_path_input == "4"
             trail_array = []
             hiker.trails_by_hiker.map do |trail|
                trail_array << trail.name 
             end.join( ) # WE WILL FIX THIS IN THE END
             puts "You have hiked in: #{trail_array}"
-        end 
+
+        else
+            puts "Thank you for using our App. Have a great day!"
+        end
     end
 
     def collect_hiker_choices_trail
@@ -158,9 +169,54 @@ class Cli
     end 
 
 
+    def collect_hiker_inputs_update_review
+        trail_name_to_edit = specify_trail_name_to_edit
+        rating_to_edit = edit_existing_rating
+        comment_to_edit = edit_existing_comment
+        hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
+        puts "Thank you! Your review is now live for our users to see."
+        user_path
+    end 
+
+    def see_all_reviews
+        hiker.reviews_by_hiker.map do |review|
+            puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
+        end
+       
+        puts "1 (I want to edit my previous review(s))"
+        puts "2 (I want to delete my previous review(s))"
+        user_path_input_3 = gets.chomp.downcase
+            if user_path_input_3 == "1"
+                collect_hiker_inputs_update_review
+            else
+                puts "please enter the trail name of the review you want to delete"
+                    trail_name_to_delete = gets.chomp
+                        hiker.delete_review_by_trail_name(trail_name_to_delete)
+            end
+    end 
+    
+    def specify_trail_name_to_edit
+        puts "please enter the trail name of the review you want to edit"
+        trail_name_to_edit = gets.chomp  
+    end 
+
+    def edit_existing_rating
+        puts "Please enter the rating you wish to give for the updated review"
+        rating_to_edit = gets.chomp
+    end 
+
+    def edit_existing_comment
+        puts "Please enter the comment you wish to update"
+        comment_to_edit = gets.chomp
+    
+    end 
+
+
+
+
    
 
-=begin
+
     def rating_choices
         puts "Choose rating of your preference from the following (1-5 star rating, 1-don't recommend 5-highly recommend):"
         puts 1
@@ -170,6 +226,6 @@ class Cli
         puts 5
         gets.chomp.downcase
     end 
-=end 
+
 
 end 
