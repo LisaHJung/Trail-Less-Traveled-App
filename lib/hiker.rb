@@ -14,25 +14,27 @@ class Hiker < ActiveRecord::Base
 
     def trails_by_hiker
       self.hiking_trails
-
+    end 
+  
     def self.look_up_reviews(hiker_name)
        x= Hiker.where name: hiker_name
        binding.pry
     end 
 
     def delete_review_by_trail_name(trail_name)
-      review_to_delete =reviews_by_hiker.where hiking_trail: trail_name
-      binding.pry
+      matching_trail_name = hiking_trails.where name: trail_name
+      review_to_delete = reviews_by_hiker.find_by(hiking_trail_id: matching_trail_name.ids)
       review_to_delete.delete
+      puts "Your review has been deleted."
     end 
+
     
-    
-
-
-
+    def edit_review_by_trail_name(trail_name_to_edit, rating_to_edit, comment_to_edit)
+      matching_trail_name = hiking_trails.where name: trail_name_to_edit
+      review_to_edit = reviews_by_hiker.find_by(hiking_trail_id: matching_trail_name.ids)
+      review_to_edit.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
+    end     
 end 
 
 
-
-        
 
