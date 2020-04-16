@@ -16,7 +16,8 @@ class Hiker < ActiveRecord::Base
     end 
 
     def delete_review_by_trail_name(trail_name)
-      review_to_delete =reviews_by_hiker.where name: trail_name
+      review_to_delete =reviews_by_hiker.where hiking_trail: trail_name
+      binding.pry
       review_to_delete.delete
     end 
     

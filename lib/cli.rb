@@ -35,13 +35,23 @@ class Cli
         elsif user_path_input == "2"
             collect_hiker_inputs_review
         
-        elsif user_path_input == "3"
+        elsif user_path_input == '3'
+            binding.pry
             hiker.reviews_by_hiker.map do |review|
-                puts "You have reviewed #{review.hiking_trail.name} trail and gave it a rating of #{review.rating}. These are your comments: #{review.user_comment}"             
+                puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
             end
-            puts "Do you want to delete any of these reviews? Enter the trail name."
-            trail_name = get.chomp
-            hiker.delete_review_by_trail_name(trail_name)
+            puts "1 (I want to edit my previous review(s))"
+            puts "2 (I want to delete my previous review(s))"
+            user_path_input_3 = gets.chomp.downcase
+                if user_path_input_3 == "1"
+                    puts "please enter the trail name of the review you want to edit"
+                     trail_name_to_edit = gets.chomp   
+             
+                elsif  user_path_input_3 == "2"
+                    puts "please enter the trail name of the review you want to delete"
+                    trail_name_to_delete = gets.chomp
+                        hiker.delete_review_by_trail_name(trail_name_to_delete)
+                end 
 
         elsif user_path_input == "4"
             trail_array = []
@@ -64,9 +74,16 @@ class Cli
 
     def collect_hiker_inputs_review
         reviewer_trail_input = new_review_trail_name
-        reviewer_rating_input = new_review_rating
-        reviewer_comment_input = new_review_comment
-        y=Review.create_review(hiker, reviewer_trail_input, reviewer_rating_input, reviewer_comment_input)
+            if reviewer_trail_input 
+                reviewer_rating_input = new_review_rating
+                reviewer_comment_input = new_review_comment
+                y=Review.create_review(hiker, reviewer_trail_input, reviewer_rating_input, reviewer_comment_input)
+          
+            else 
+                puts "Check your spelling and capitalization of trail name. Try again."
+                # map through all trails and print them out. 
+                collect_hiker_inputs_review
+            end 
         
     end 
 
@@ -116,7 +133,7 @@ class Cli
         puts "10,000-14,000"
         elevation_input = gets.chomp    
             if elevation_input == "7000-8000"
-                elevation_inputconverted = 7000..8000
+                elevation_input_converted = 7000..8000
             elsif elevation_input == "8000-10,000" 
                 elevation_input_converted = 8000..10000
             else 
@@ -127,6 +144,7 @@ class Cli
     def new_review_trail_name
         puts "Please write the name of the trail you want to review"
         reviewer_trail_input = gets.chomp
+        binding.pry
         HikingTrail.find_by name: reviewer_trail_input
     end 
 
