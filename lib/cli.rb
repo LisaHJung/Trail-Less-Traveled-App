@@ -19,7 +19,6 @@ class Cli
         @hiker = Hiker.find_or_create_by(name: hiker_name)
         user_path
     end 
-
  
     def user_path
         puts "What do you want to do? Choose one option from the following:"
@@ -36,7 +35,7 @@ class Cli
             collect_hiker_inputs_review
         
         elsif user_path_input == '3'
-            binding.pry
+           
             hiker.reviews_by_hiker.map do |review|
                 puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
             end
@@ -51,6 +50,7 @@ class Cli
                     puts "please enter the trail name of the review you want to delete"
                     trail_name_to_delete = gets.chomp
                         hiker.delete_review_by_trail_name(trail_name_to_delete)
+                        binding.pry
                 end 
 
         elsif user_path_input == "4"
@@ -144,7 +144,6 @@ class Cli
     def new_review_trail_name
         puts "Please write the name of the trail you want to review"
         reviewer_trail_input = gets.chomp
-        binding.pry
         HikingTrail.find_by name: reviewer_trail_input
     end 
 
