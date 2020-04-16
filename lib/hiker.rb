@@ -11,8 +11,14 @@ class Hiker < ActiveRecord::Base
       self.reviews
     end 
 
+
     def trails_by_hiker
       self.hiking_trails
+    end 
+  
+    def self.look_up_reviews(hiker_name)
+       x= Hiker.where name: hiker_name
+       binding.pry
     end 
 
     def delete_review_by_trail_name(trail_name)
@@ -29,12 +35,6 @@ class Hiker < ActiveRecord::Base
       review_to_edit.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
     end     
 end 
-
-
-# You need update_column method. Try this:
-
-# agency = Agency.find(1)
-# agency.update_column(:status, 0)
 
 
 

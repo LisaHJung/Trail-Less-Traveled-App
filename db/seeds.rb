@@ -28,14 +28,23 @@ hik4 = Hiker.create(
 )
 
 
+<<<<<<< HEAD
+=======
 # make everything lower case
+>>>>>>> 33e1e8cb60d0a94d490e12680949468bcf8ffc43
 trail1 = HikingTrail.create(
     name: "7 falls",
     location: "boulder",
     difficulty_level: "easy",
+<<<<<<< HEAD
+    distance: 3,
+    traffic: "medium", 
+    elevation: 8500,
+=======
     distance: 5,
     traffic: "high", 
     elevation: 7500,
+>>>>>>> 33e1e8cb60d0a94d490e12680949468bcf8ffc43
     rout_type: "steps"
 
     trail2 = HikingTrail.create(
