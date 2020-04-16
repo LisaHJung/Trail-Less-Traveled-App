@@ -17,12 +17,6 @@ end
      end 
 end 
 
-=begin
-def review_count
-self.reviews
-end
-=end
-
 
 >>>>>>> 33e1e8cb60d0a94d490e12680949468bcf8ffc43
 
