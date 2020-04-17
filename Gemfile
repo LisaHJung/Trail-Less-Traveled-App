@@ -14,3 +14,4 @@ gem "require_all", "~> 3.0"
 
 gem "tty-prompt"
 gem "tty-box"
+gem "colorize"
