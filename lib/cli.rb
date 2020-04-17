@@ -2,27 +2,30 @@ class Cli
     attr_reader :hiker
 
     def welcome_menu
+        welcome_user
         puts "Welcome to Trail Less Traveled."
-        puts "During this crazy pandemic, us avid hikers and outdoor enthusiasts could find ourselves going stir crazy."
+        puts "\nDuring this crazy pandemic, us avid hikers and outdoor enthusiasts could find ourselves going stir crazy."
         puts "In times, where everyone and their mothers are heading to the outdoors to escape cabin fever, what is a hiker to do to find some peace and quiet on the trail?"
-        puts "Trail Less Traveled app helps you find the least busy trail based on your preference of location, trail difficulty, trail length, and reviews."
+        puts "\nTrail Less Traveled app helps you find the least busy trail based on your preference of location, trail difficulty, trail length, and reviews."
         puts "Keep calm and hike on while practicing safe social distancing."
+        
         prompt = TTY::Prompt.new
-        hiker_name= prompt.ask('What is your name?') #, default: ENV['USER']
+        hiker_name= prompt.ask("\nWhat is your name?") #, default: ENV['USER']
         set_hiker(hiker_name)
     end
    
 
     def set_hiker(hiker_name)
-        @hiker = Hiker.find_or_create_by(name: hiker_name)
+        @hiker = Hiker.find_or_create_by(name: hiker_name)  
         user_path
     end 
  
     def user_path
-         prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
+        banner
+        puts "Hi #{hiker.name}!"
+        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         choices = ["Find a hiking trail", "Leave a review for a trail", "See all of my reviews", "See all of the trail I have reviewed", "Exit this app"]
-       
-        user_path_input = prompt.select("What do you want to do?", choices)
+        user_path_input = prompt.select("\nWhat do you want to do?", choices)
             
         case user_path_input
             when "Find a hiking trail"  
@@ -36,13 +39,14 @@ class Cli
             when "See all of my reviews"
                 system "clear"
                 banner
-                see_all_reviews  
+                see_all_reviews   
             when "See all of the trail I have reviewed"
                 system "clear"
                 banner
                 see_all_trails
         else
             system "clear"
+            goodbye
             puts "Thank you for using our App. Have a great day!"
         end
     end
@@ -83,13 +87,13 @@ class Cli
        
         hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
         hiker.reload
-        puts "Thank you! Your review is now live for our users to see."
+        puts "\nThank you! Your review is now live for our users to see."
         user_path
     end 
 
 
     def traffic_choices
-        prompt = TTY::Prompt.new(symbols: {marker: '🌲'})
+        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         traffic_selection = ["High", "Medium", "Desolate"]
         traffic_input = prompt.select("Choose your preferred level of traffic of a hiking trail", traffic_selection).downcase
     end
@@ -138,9 +142,12 @@ class Cli
     end 
 
     def new_review_trail_name
-        puts "Please write the name of the trail you want to review"
-        reviewer_trail_input = gets.chomp
-        HikingTrail.find_by name: reviewer_trail_input
+        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
+        trail_selections = HikingTrail.all.map {|trail| trail.name}
+        reviewer_trail_input = prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
+        #puts "Please write the name of the trail you want to review"
+        # reviewer_trail_input = gets.chomp
+         HikingTrail.find_by name: reviewer_trail_input
     end 
 
     def new_review_rating
@@ -154,35 +161,54 @@ class Cli
     end 
    
     def see_all_reviews
-        hiker.reviews_by_hiker.map do |review|
+        if hiker.reviews_by_hiker.length == 0
+            puts "You currently have not written any reviews."
+        else
+            hiker.reviews_by_hiker.map do |review|
             puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
+            end 
         end
         prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         update_review_selection = ["Edit my previous review(s)", "Delete my previous review(s)", "Main menu"]
-        sub_reviews_menu = prompt.select("What do you want to do?", update_review_selection).downcase
+        sub_reviews_menu = prompt.select("\nWhat do you want to do?", update_review_selection).downcase
         
             case sub_reviews_menu 
                 when "edit my previous review(s)"
                     system "clear"
                     banner
-                collect_hiker_inputs_update_review
+                if hiker.reviews_by_hiker.length == 0
+                    puts "You have not written any reviews yet. Please go back to the main menu if you want to share a review!"
+                    user_path
+                else
+                    collect_hiker_inputs_update_review
+                end 
                 when "delete my previous review(s)"
                     system "clear"
                     banner
-                    puts "please enter the trail name of the review you want to delete"
-                    trail_name_to_delete = gets.chomp
+                    if hiker.reviews_by_hiker.length == 0
+                      puts "You have not written any reviews yet. Please go back to the main menu if you want to share a review!"
+                      user_path
+                    else
+                    prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
+                    trail_array =[]
+                    delete_review_selection = hiker.trails_by_hiker.map {|trail| trail_array << trail.name}.uniq
+                    trail_name_to_delete = prompt.select("\nPlease choose the name of trail of review you want to delete", delete_review_selection)
                         hiker.delete_review_by_trail_name(trail_name_to_delete)
                         hiker.reload
-                        user_path
-                        
+                        user_path          
+                    end     
             else
                 user_path
             end
     end 
     
     def specify_trail_name_to_edit
-        puts "please enter the trail name of the review you want to edit"
-        trail_name_to_edit = gets.chomp  
+        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
+        trail_array = []
+        trail_selections = hiker.trails_by_hiker.map {|trail| trail_array << trail.name}.uniq
+        trail_name_to_edit = prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
+        # puts "please enter the trail name of the review you want to edit"
+        # trail_name_to_edit = gets.chomp  
     end 
 
     def edit_existing_rating
@@ -193,13 +219,12 @@ class Cli
     def edit_existing_comment
         puts "Please enter the comment you wish to update"
         comment_to_edit = gets.chomp
-    
     end 
     def see_all_trails
         trail_array = []
         hiker.trails_by_hiker.map do |trail|
         trail_array << trail.name 
-        end
+        end.uniq
         puts "You have hiked in: #{trail_array}"
         user_path
     end 

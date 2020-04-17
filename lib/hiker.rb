@@ -8,7 +8,7 @@ class Hiker < ActiveRecord::Base
     end 
     
     def reviews_by_hiker
-     self.reviews
+      self.reviews
     end 
 
     def trails_by_hiker
