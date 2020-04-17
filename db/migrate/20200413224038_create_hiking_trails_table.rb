@@ -7,7 +7,7 @@ class CreateHikingTrailsTable < ActiveRecord::Migration[6.0]
       t.integer :distance
       t.string :traffic
       t.integer :elevation
-      t.string :rout_type
+      t.string :address
     end
   end
 end
