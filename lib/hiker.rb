@@ -8,9 +8,8 @@ class Hiker < ActiveRecord::Base
     end 
     
     def reviews_by_hiker
-      self.reviews
+     self.reviews
     end 
-
 
     def trails_by_hiker
       self.hiking_trails
@@ -28,15 +27,16 @@ class Hiker < ActiveRecord::Base
     end 
  
     def edit_review_by_trail_name(trail_name_to_edit, rating_to_edit, comment_to_edit)
-      matching_trail_name = hiking_trails.where name: trail_name_to_edit
-      review_to_edit = reviews_by_hiker.find_by(hiking_trail_id: matching_trail_name.ids)
-      updated_review= review_to_edit.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
+      matching_trail_name = hiking_trails.find_by name: trail_name_to_edit
+      review_to_edit = reviews_by_hiker.find_by(hiking_trail_id: matching_trail_name.id)
+      updated_review= review_to_edit.update(rating: rating_to_edit, user_comment: comment_to_edit)
     end     
 
-    def update_review_array_for_hiker(updated_review)
-      review_to_update = Review.where id == updated_review.id
-      review_to_update.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
-    end 
+#     def update_review_array_for_hiker
+#       edit_review_by_trail_name
+#       review_to_update = Review.where id == updated_review.id
+#       review_to_update.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
+#     end 
 end 
 
 
