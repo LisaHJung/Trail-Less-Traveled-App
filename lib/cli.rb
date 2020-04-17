@@ -1,12 +1,12 @@
 class Cli
     attr_reader :hiker
-
+    $prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
     def welcome_menu
         welcome_user
         puts "Welcome to Trail Less Traveled."
         puts "\nDuring this crazy pandemic, us avid hikers and outdoor enthusiasts could find ourselves going stir crazy."
         puts "In times, where everyone and their mothers are heading to the outdoors to escape cabin fever, what is a hiker to do to find some peace and quiet on the trail?"
-        puts "\nTrail Less Traveled app helps you find the least busy trail based on your preference of location, trail difficulty, trail length, and reviews."
+        puts "\nTrail Less Traveled app helps you find the least busy trail based on your preference of trail traffic, location, difficulty, length, and elevation."
         puts "Keep calm and hike on while practicing safe social distancing."
         
         prompt = TTY::Prompt.new
@@ -23,9 +23,8 @@ class Cli
     def user_path
         banner
         puts "Hi #{hiker.name}!"
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         choices = ["Find a hiking trail", "Leave a review for a trail", "See all of my reviews", "See all of the trail I have reviewed", "Exit this app"]
-        user_path_input = prompt.select("\nWhat do you want to do?", choices)
+        user_path_input = $prompt.select("\nWhat do you want to do?", choices)
             
         case user_path_input
             when "Find a hiking trail"  
@@ -60,6 +59,7 @@ class Cli
         system "clear"
         banner
         x = HikingTrail.trails_by_user_choice(traffic_input, location_input, length_input, difficulty_input, elevation_input)
+        traffic_input = $prompt.select("Press enter to continue",["Enter"])
         user_path
     end
 
@@ -93,22 +93,18 @@ class Cli
 
 
     def traffic_choices
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         traffic_selection = ["High", "Medium", "Desolate"]
-        traffic_input = prompt.select("Choose your preferred level of traffic of a hiking trail", traffic_selection).downcase
+        traffic_input = $prompt.select("Choose your preferred level of traffic of a hiking trail", traffic_selection).downcase
     end
 
     def location_choices
-         prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         location_selection = ["Boulder", "Denver", "Golden"]
-        prompt.select("Choose city of your preference", location_selection).downcase
- 
+        $prompt.select("Choose city of your preference", location_selection).downcase
     end 
 
     def length_choices
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         length_selection = ["0-3", "3-5", "5-10"]
-        length_input = prompt.select("Choose trail length of your preference(in miles)", length_selection)
+        length_input = $prompt.select("Choose trail length of your preference(in miles)", length_selection)
 
         case length_input 
             when "0-3"
@@ -121,15 +117,13 @@ class Cli
     end 
 
     def difficulty_choices
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         difficulty_selection = ["Easy", "Medium", "Difficult"]
-        difficulty_input = prompt.select("Choose trail difficulty of your preference", difficulty_selection).downcase
+        difficulty_input = $prompt.select("Choose trail difficulty of your preference", difficulty_selection).downcase
     end 
 
     def elevation_choices
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         elevation_selection = ["7,000-8,000", "8,000-10,000", "10,000-15,000"]
-        elevation_input = prompt.select("Choose elevation of your preference(in feet)", elevation_selection)
+        elevation_input = $prompt.select("Choose elevation of your preference(in feet)", elevation_selection)
       
            case elevation_input 
                 when "7,000-8,000"
@@ -142,9 +136,8 @@ class Cli
     end 
 
     def new_review_trail_name
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         trail_selections = HikingTrail.all.map {|trail| trail.name}
-        reviewer_trail_input = prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
+        reviewer_trail_input = $prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
         #puts "Please write the name of the trail you want to review"
         # reviewer_trail_input = gets.chomp
          HikingTrail.find_by name: reviewer_trail_input
@@ -168,9 +161,8 @@ class Cli
             puts "You have reviewed #{review.hiking_trail.name} trail and gave it the rating of #{review.rating}. These are your comments: #{review.user_comment}"
             end 
         end
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         update_review_selection = ["Edit my previous review(s)", "Delete my previous review(s)", "Main menu"]
-        sub_reviews_menu = prompt.select("\nWhat do you want to do?", update_review_selection).downcase
+        sub_reviews_menu = $prompt.select("\nWhat do you want to do?", update_review_selection).downcase
         
             case sub_reviews_menu 
                 when "edit my previous review(s)"
@@ -189,10 +181,9 @@ class Cli
                       puts "You have not written any reviews yet. Please go back to the main menu if you want to share a review!"
                       user_path
                     else
-                    prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
                     trail_array =[]
                     delete_review_selection = hiker.trails_by_hiker.map {|trail| trail_array << trail.name}.uniq
-                    trail_name_to_delete = prompt.select("\nPlease choose the name of trail of review you want to delete", delete_review_selection)
+                    trail_name_to_delete = $prompt.select("\nPlease choose the name of trail of review you want to delete", delete_review_selection)
                         hiker.delete_review_by_trail_name(trail_name_to_delete)
                         hiker.reload
                         user_path          
@@ -203,10 +194,9 @@ class Cli
     end 
     
     def specify_trail_name_to_edit
-        prompt = TTY::Prompt.new(symbols: {marker: '⛰️'})
         trail_array = []
         trail_selections = hiker.trails_by_hiker.map {|trail| trail_array << trail.name}.uniq
-        trail_name_to_edit = prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
+        trail_name_to_edit = $prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
         # puts "please enter the trail name of the review you want to edit"
         # trail_name_to_edit = gets.chomp  
     end 
