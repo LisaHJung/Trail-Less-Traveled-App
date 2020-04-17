@@ -11,7 +11,7 @@ class HikingTrail < ActiveRecord::Base
       else
           matching_trails.each do |trail|
           puts "Here are our trail recommendations based on your preferences"
-          puts "Trail name: #{trail.name}; Location:#{trail.location}; Difficulty Level: #{trail.difficulty_level}; Trail Length: #{trail.distance} miles; Trail Traffic: #{trail.traffic}; Elevation: #{trail.elevation} feet"
+          puts "\nTrail name: #{trail.name}; Address: #{trail.address}; Difficulty Level: #{trail.difficulty_level}; Trail Length: #{trail.distance} miles; Trail Traffic: #{trail.traffic}; Elevation: #{trail.elevation} feet"
       end
     end 
   end 
