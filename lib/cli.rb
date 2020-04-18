@@ -10,7 +10,7 @@ class Cli
         puts "Keep calm and hike on while practicing safe social distancing."
         
         prompt = TTY::Prompt.new
-        hiker_name= prompt.ask("\nWhat is your name?") #, default: ENV['USER']
+        hiker_name= prompt.ask("\nWhat is your name?") 
         set_hiker(hiker_name)
     end
    
@@ -21,6 +21,7 @@ class Cli
     end 
  
     def user_path
+        system "clear"
         banner
         puts "Hi #{hiker.name}!"
         choices = ["Find a hiking trail", "Leave a review for a trail", "See all of my reviews", "See all of the trail I have reviewed", "Exit this app"]
@@ -60,6 +61,7 @@ class Cli
         banner
         x = HikingTrail.trails_by_user_choice(traffic_input, location_input, length_input, difficulty_input, elevation_input)
         traffic_input = $prompt.select("Press enter to continue",["Enter"])
+        system "clear"
         user_path
     end
 
@@ -71,6 +73,8 @@ class Cli
                 y=Review.create_review(hiker, reviewer_trail_input, reviewer_rating_input, reviewer_comment_input)
                 puts "Thank you for your review. Your review is now live for other users to view."
                 hiker.reload
+                reviewer_trail_input = $prompt.select("Press enter to continue",["Enter"])
+                system "clear"
                 user_path
             else 
                 puts "Check your spelling and capitalization of trail name. Try again."
@@ -88,6 +92,8 @@ class Cli
         hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
         hiker.reload
         puts "\nThank you! Your review is now live for our users to see."
+        review_update_input = $prompt.select("Press enter to continue",["Enter"])
+        system "clear"
         user_path
     end 
 
@@ -122,11 +128,11 @@ class Cli
     end 
 
     def elevation_choices
-        elevation_selection = ["7,000-8,000", "8,000-10,000", "10,000-15,000"]
+        elevation_selection = ["4,000-8,000", "8,000-10,000", "10,000-15,000"]
         elevation_input = $prompt.select("Choose elevation of your preference(in feet)", elevation_selection)
       
            case elevation_input 
-                when "7,000-8,000"
+                when "4,000-8,000"
                         elevation_input_converted = 7000..8000
                 when "8,000-10,000" 
                         elevation_input_converted = 8000..10000
@@ -137,14 +143,12 @@ class Cli
 
     def new_review_trail_name
         trail_selections = HikingTrail.all.map {|trail| trail.name}
-        reviewer_trail_input = $prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
-        #puts "Please write the name of the trail you want to review"
-        # reviewer_trail_input = gets.chomp
+        reviewer_trail_input = $prompt.select("\nPlease choose the name of trail that you want to review. Press down arrow for more options.", trail_selections)
          HikingTrail.find_by name: reviewer_trail_input
     end 
 
     def new_review_rating
-        puts "Please rate the trail on a scale from 1 to 5 (1 - I don't recommend this trail. 2- I highly recommend this trail.)"
+        puts "Please rate the trail on a scale from 1 to 5 (1 - I don't recommend this trail. 5- I highly recommend this trail.)"
         reviewer_rating_input = gets.chomp
     end 
 
@@ -186,6 +190,9 @@ class Cli
                     trail_name_to_delete = $prompt.select("\nPlease choose the name of trail of review you want to delete", delete_review_selection)
                         hiker.delete_review_by_trail_name(trail_name_to_delete)
                         hiker.reload
+                        delete_review_input = $prompt.select("Press enter to continue",["Enter"])
+                        system "clear"
+                      
                         user_path          
                     end     
             else
@@ -202,7 +209,7 @@ class Cli
     end 
 
     def edit_existing_rating
-        puts "Please enter the rating you wish to give for the updated review"
+        puts "Please enter the rating you wish to give for the updated review (1- I don't recommend this trail; 5- I highly recommend this trail)"
         rating_to_edit = gets.chomp
     end 
 
@@ -216,6 +223,8 @@ class Cli
         trail_array << trail.name 
         end.uniq
         puts "You have hiked in: #{trail_array}"
+        all_trail_input = $prompt.select("Press enter to continue",["Enter"])
+        system "clear"
         user_path
     end 
  
