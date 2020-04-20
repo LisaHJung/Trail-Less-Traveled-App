@@ -31,12 +31,6 @@ class Hiker < ActiveRecord::Base
       review_to_edit = reviews_by_hiker.find_by(hiking_trail_id: matching_trail_name.id)
       updated_review= review_to_edit.update(rating: rating_to_edit, user_comment: comment_to_edit)
     end     
-
-#     def update_review_array_for_hiker
-#       edit_review_by_trail_name
-#       review_to_update = Review.where id == updated_review.id
-#       review_to_update.update_columns(rating: rating_to_edit, user_comment: comment_to_edit)
-#     end 
 end 
 
 

@@ -14,12 +14,12 @@ class Cli
         set_hiker(hiker_name)
     end
    
-
     def set_hiker(hiker_name)
         @hiker = Hiker.find_or_create_by(name: hiker_name)  
         user_path
     end 
  
+    # user_path method is the main menu the user uses to access all the features of this app
     def user_path
         system "clear"
         banner
@@ -40,7 +40,7 @@ class Cli
                 system "clear"
                 banner
                 see_all_reviews   
-            when "See all of the trail I have reviewed"
+            when "See all of the trails I have reviewed"
                 system "clear"
                 banner
                 see_all_trails
@@ -50,7 +50,9 @@ class Cli
             puts "Thank you for using our App. Have a great day!"
         end
     end
-
+    
+    # CEO method - when a user selects "Find a hiking trail" option, it will call on all the methods listed below. 
+        # These methods can be found in lines 70-111
     def collect_hiker_choices_trail
         traffic_input = traffic_choices
         location_input = location_choices 
@@ -64,39 +66,6 @@ class Cli
         system "clear"
         user_path
     end
-
-    def collect_hiker_inputs_review
-        reviewer_trail_input = new_review_trail_name
-            if reviewer_trail_input 
-                reviewer_rating_input = new_review_rating
-                reviewer_comment_input = new_review_comment
-                y=Review.create_review(hiker, reviewer_trail_input, reviewer_rating_input, reviewer_comment_input)
-                puts "Thank you for your review. Your review is now live for other users to view."
-                hiker.reload
-                reviewer_trail_input = $prompt.select("Press enter to continue",["Enter"])
-                system "clear"
-                user_path
-            else 
-                puts "Check your spelling and capitalization of trail name. Try again."
-                # map through all trails and print them out. 
-                collect_hiker_inputs_review
-            end 
-        
-    end 
-
-    def collect_hiker_inputs_update_review
-        trail_name_to_edit = specify_trail_name_to_edit
-        rating_to_edit = edit_existing_rating
-        comment_to_edit = edit_existing_comment
-       
-        hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
-        hiker.reload
-        puts "\nThank you! Your review is now live for our users to see."
-        review_update_input = $prompt.select("Press enter to continue",["Enter"])
-        system "clear"
-        user_path
-    end 
-
 
     def traffic_choices
         traffic_selection = ["High", "Medium", "Desolate"]
@@ -141,6 +110,25 @@ class Cli
             end
     end 
 
+    # CEO method - when a user selects  "Leave a review for a trail" option, it will call on all of these methods included within it. 
+        # These methods can be found in lines 132-146
+    def collect_hiker_inputs_review
+        reviewer_trail_input = new_review_trail_name
+            if reviewer_trail_input 
+                reviewer_rating_input = new_review_rating
+                reviewer_comment_input = new_review_comment
+                y=Review.create_review(hiker, reviewer_trail_input, reviewer_rating_input, reviewer_comment_input)
+                puts "Thank you for your review. Your review is now live for other users to view."
+                hiker.reload
+                reviewer_trail_input = $prompt.select("Press enter to continue",["Enter"])
+                system "clear"
+                user_path
+            else 
+                puts "Check your spelling and capitalization of trail name. Try again."
+                collect_hiker_inputs_review
+            end      
+    end 
+    
     def new_review_trail_name
         trail_selections = HikingTrail.all.map {|trail| trail.name}
         reviewer_trail_input = $prompt.select("\nPlease choose the name of trail that you want to review. Press down arrow for more options.", trail_selections)
@@ -157,6 +145,10 @@ class Cli
         reviewer_comment_input = gets.chomp
     end 
    
+   
+    # Method see_all_reviews is called when a user selects see all of my reviews option.
+      # After the user accesses all of her reviews, she has an option to edit or delete her review in sub_reviews_menu.
+        # When a user chooses to edit her previous review, the method calls upon CEO method collect_hiker_inputs_update_review in lines 197-208
     def see_all_reviews
         if hiker.reviews_by_hiker.length == 0
             puts "You currently have not written any reviews."
@@ -199,13 +191,26 @@ class Cli
                 user_path
             end
     end 
+
+     # CEO method for when a user chooses edit my review. This method calls on all of the methods included within it. 
+        # The included methods are specified in lines 210 - 224
+     def collect_hiker_inputs_update_review
+        trail_name_to_edit = specify_trail_name_to_edit
+        rating_to_edit = edit_existing_rating
+        comment_to_edit = edit_existing_comment
+       
+        hiker.edit_review_by_trail_name(trail_name_to_edit, rating_to_edit,comment_to_edit)
+        hiker.reload
+        puts "\nThank you! Your review is now live for our users to see."
+        review_update_input = $prompt.select("Press enter to continue",["Enter"])
+        system "clear"
+        user_path
+    end 
     
     def specify_trail_name_to_edit
         trail_array = []
         trail_selections = hiker.trails_by_hiker.map {|trail| trail_array << trail.name}.uniq
         trail_name_to_edit = $prompt.select("\nPlease choose the name of trail that you want to review", trail_selections)
-        # puts "please enter the trail name of the review you want to edit"
-        # trail_name_to_edit = gets.chomp  
     end 
 
     def edit_existing_rating
@@ -217,6 +222,8 @@ class Cli
         puts "Please enter the comment you wish to update"
         comment_to_edit = gets.chomp
     end 
+
+    # This is a method that is executed when the user select see_all_trail_option from the main menu.
     def see_all_trails
         trail_array = []
         hiker.trails_by_hiker.map do |trail|
